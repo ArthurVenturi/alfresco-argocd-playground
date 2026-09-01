@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alfresco-search
+  labels:
+    app: alfresco-search
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alfresco-search
+  template:
+    metadata:
+      labels:
+        app: alfresco-search
+    spec:
+      containers:
+        - name: alfresco-search
+          image: alfresco/alfresco-search-services:2.0.18
+          resources:
+            requests:
+              memory: "4Gi"
+              #cpu: "2"
+            limits:
+              memory: "6Gi"
+              #cpu: "2"
+          ports:
+            - containerPort: 8983
+          
+          env:
+            - name: JAVA_OPTS
+              value: >
+                -Xms4g -Xmx6g
+                -Dsolr.host=localhost
+                -Dsolr.port=8983
+                -Dalfresco.secureComms=secret
+                -Dsolr.ssl.enabled=false
+                -Dsolr.dir=/opt/alfresco-search-services
+                -Dsolr.solr.home=/opt/alfresco-search-services/solrhome
+                -Dsolr.data.dir=/opt/alfresco-search-services/data
+                -Dsolr.log.dir=/opt/alfresco-search-services/logs
+                -Dsolr.backup.dir=/opt/alfresco-search-services/backup
+                -Dsolr.lock.type=native
+
+            - name: SOLR_CREATE_ALFRESCO_DEFAULTS
+              value: "alfresco,archive"
+            - name: SOLR_JAVA_MEM
+              value: "-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80"
+            - name: SOLR_ALFRESCO_HOST
+              value: "alfresco-repo.alfresco.svc.cluster.local"
+            - name: SOLR_ALFRESCO_PORT
+              value: "8080"
+            - name: SOLR_SOLR_HOST
+              value: "alfresco-search.alfresco.svc.cluster.local"
+            - name: SOLR_SOLR_PORT
+              value: "8983"
+            - name: SOLR_OPTS
+              value: >
+                -XX:-UseLargePages
+                -Dalfresco.secureComms.secret=fp40ptlrn6v
+          volumeMounts:
+            - name: alfresco-data
+              mountPath: /opt/alfresco-search-services/data
+              subPath: solr-data
+            - name: alfresco-data
+              mountPath: /opt/alfresco-search-services/backup
+              subPath: solr-backup
+      volumes:
+        - name: alfresco-data
+          persistentVolumeClaim:
+            claimName: alfresco-pvc
+      imagePullSecrets:
+        - name: ambientelivre-registry-secret

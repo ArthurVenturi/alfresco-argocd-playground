@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alfresco-content-app
+  namespace: alfresco-bj
+  labels:
+    app: content-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: content-app
+  template:
+    metadata:
+      labels:
+        app: content-app
+    spec:
+      containers:
+        - name: content-app
+          image: alfresco/alfresco-content-app:6.0.0
+          env:
+            - name: BASE_URL
+              value: "https://localhost/alfresco"
+            - name: APP_BASE_SHARE_URL
+              value: "https://localhost/#/preview/s"
+          resources:
+            limits:
+              memory: "256Mi"
+          ports:
+            - containerPort: 80
+            

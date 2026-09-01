@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - alfresco-activemq.yaml
+  - alfresco-svc-activemq.yaml
+  - postgres-deployment.yaml
+  - alfresco-svc-postgres.yaml
+  - alfresco-repository.yaml
+  - alfresco-svc-alfresco.yaml
+  - share-deployment.yaml
+  - alfresco-svc-share.yaml
+  - alfresco-search.yaml
+  - alfresco-svc-search.yaml
+  - alfresco-content-app.yaml
+  - alfresco-svc-content-app.yaml
+  - alfresco-transform-core-aio.yaml
+  - alfresco-svc-transform-core-aio.yaml

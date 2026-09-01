@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alfresco-activemq
+  namespace: alfresco-bj
+  labels:
+    app: activemq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: activemq
+  template:
+    metadata:
+      labels:
+        app: activemq
+    spec:
+      containers:
+        - name: activemq
+          image: alfresco/alfresco-activemq:5.16-jre17-rockylinux8
+          ports:
+            - containerPort: 61616
+            - containerPort: 8161
+          volumeMounts:
+            - name: activemq-data
+              mountPath: /opt/activemq/data
+              subPath: activemq-data
+          resources:
+            limits:
+              memory: "1Gi"
+            requests:
+              memory: "512Mi"
+      volumes:
+        - name: activemq-data
+          persistentVolumeClaim:
+            claimName: alfresco-pvc

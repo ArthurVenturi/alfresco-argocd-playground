@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alfresco-share
+  namespace: alfresco-bj
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alfresco-share
+  template:
+    metadata:
+      labels:
+        app: alfresco-share
+    spec:
+      containers:
+        - name: share
+          image: alfresco/alfresco-share:25.5.0-A.9
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REPO_HOST
+              value: "alfresco-repo"
+            - name: REPO_PORT
+              value: "8080"

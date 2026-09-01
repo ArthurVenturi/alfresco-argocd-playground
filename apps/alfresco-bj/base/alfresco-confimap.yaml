@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alfresco-config
+  namespace: alfresco-bj
+data:
+  alfresco-global.properties: |
+    # database
+
+    # configs Alfresco Repo
+    alfresco_user_store.adminpassword=209c6174da490caeb422f3fa5a7ae634
+    system.preferred.password.encoding=bcrypt10
+
+    # Configs Solr
+    solr.host=solr6
+    solr.port=8983
+    solr.port.ssl=8983
+    solr.secureComms=secret
+    solr.baseUrl=/solr
+    index.subsystem.name=solr6
+    solr.sharedSecret=oczatn7p8y
+    alfresco.batch.count=115
+
+    # Configs de API
+    #api-explorer.url=https://${SERVER_NAME}:443/api-explorer
+
+    # Configs do Alfresco Share
+    #share.host=${SERVER_NAME}
+    #share.port=443
+    #share.protocol=https
+
+    # AOS (Office Integration)
+    #aos.baseUrlOverwrite=https://${SERVER_NAME}/alfresco/aos
+
+    # Transform Core
+    #localTransform.core-aio.url=http://transform-core-aio:8090/
+    #httpclient.config.transform.connectionRequestTimeout=500000
+
+    
+    ## Tunning para tratamento thumbnail.
+    transform.thumbnail.maxSourceSizeBytes=10485760
+    transform.thumbnail.timeout=120
+
+    ## Propriedades Lixeira 
+    trashcan.cleaner.enabled=true
+    trashcan.cleaner.keepPeriodDays=10
+    contentstore.cleaner.enabled=true
+    contentstore.cleaner.daysToKeep=0
+    system.content.deleted.cronExpression="0 */2 * * * *" #duas horas
+    system.content.eagerOrphanCleanup=true

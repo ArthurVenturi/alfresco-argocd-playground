@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alfresco-postgres
+  namespace: alfresco-bj
+  labels:
+    app: alfresco-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alfresco-postgres
+  template:
+    metadata:
+      labels:
+        app: alfresco-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          env: 
+            - name: POSTGRES_DB
+              value: alfresco
+            - name: POSTGRES_USER
+              value: alfresco
+            - name: POSTGRES_PASSWORD
+              value: Alf#4Pu8*YIU3cm
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: alf-data
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+      volumes:
+        - name: alf-data
+          persistentVolumeClaim:
+            claimName: alfresco-pvc

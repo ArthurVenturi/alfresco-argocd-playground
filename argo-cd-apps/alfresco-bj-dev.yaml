@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: alfresco-bj
+  namespace: argocd # Namespace onde o Argo CD está instalado
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/ArthurVenturi/alfresco-argocd-playground' # Substitua pela URL do seu repositório
+    targetRevision: HEAD
+    path: apps/alfresco-bj/overlays/dev # Caminho para o Kustomize do ambiente
+  destination:
+    server: 'https://127.0.0.1:35377'
+    namespace: dev # Namespace de destino no cluster Kubernetes
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

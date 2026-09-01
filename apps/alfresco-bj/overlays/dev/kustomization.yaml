@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Aponta para a base que queremos customizar
+resources:
+  - ../../base
+
+# Define o número de réplicas para este ambiente
+replicas:
+  - name: alfresco-content-app
+    count: 1
+  - name: alfresco-repo
+    count: 1
+  - name: alfresco-share
+    count: 1
+  - name: alfresco-postgres
+    count: 1
+
+namespace: alfresco-bj

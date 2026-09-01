@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alfresco-transform-core-aio
+  labels:
+    app: transform-core-aio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transform-core-aio
+  template:
+    metadata:
+      labels:
+        app: transform-core-aio
+    spec:
+      containers:
+        - name: transform-core-aio
+          image: alfresco/alfresco-transform-core-aio:5.2.4
+          ports:
+            - containerPort: 8090
+          env:
+            - name: JAVA_OPTS
+              value: >
+                -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
+                -Dserver.tomcat.threads.max=12
+                -Dserver.tomcat.threads.min=4
+                -Dlogging.level.org.alfresco.transform.common.TransformerDebug=ERROR
+                -Dlogging.level.org.alfresco.transform=ERROR
+                -Dlogging.level.org.apache.fontbox.ttf=ERROR
+                -Dlogging.level.org.apache.pdfbox.cos.COSDocument=ERROR
+                -Dlogging.level.org.apache.pdfbox.pdfparser=ERROR
+                -Dlogging.level.org.apache.pdfbox.filter.FlateFilter=ERROR
+                -Dlogging.level.org.apache.pdfbox.pdmodel.font=ERROR
+                -Dlogging.level.org.apache.pdfbox.pdmodel.font.PDSimpleFont=FATAL
+                -Dlogging.level.org.apache.pdfbox.pdmodel.font.PDFont=FATAL
+                -Dlogging.level.org.apache.pdfbox.pdmodel.font.PDCIDFont=FATAL
+          resources:
+            limits:
+              memory: "2048Mi"
+            requests:
+              memory: "1024Mi"

@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alfresco-repo
+  namespace: alfresco-bj
+  labels:
+    app: alfresco-repo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alfresco-repo
+  template:
+    metadata:
+      labels:
+        app: alfresco-repo
+    spec:
+      containers:
+        - name: alfresco
+          image: alfresco/alfresco-content-repository-community:latest
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "3Gi"
+            limits:
+              cpu: "500m"
+              memory: "5Gi"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_NAME
+              value: "https://localhost"
+            - name: TZ
+              value: America/Sao_Paulo
+            - name: JAVA_OPTS
+              value: "
+                -Ddb.driver=org.postgresql.Driver
+                -Ddb.url=jdbc:postgresql://alfresco-postgres:5432/alfresco
+                -Ddb.username=alfresco
+                -Ddb.password=Alf#4Pu8*YIU3cm
+                -Ddb.pool.initial=10
+                -Ddb.pool.max=50
+                -Dalfresco.port=443 \
+                -Dalfresco.host=$(SERVER_NAME) \
+                -Dalfresco.port=443 \
+                -Dalfresco.protocol=https \
+                -Dshare.host=$(SERVER_NAME) \
+                -Dshare.port=443 \
+                -Dshare.protocol=https \
+                -Xms3g \
+                -Xmx5g \
+                -XX:+UseG1GC \
+                -XX:MaxGCPauseMillis=200 \
+                -XX:+UseStringDeduplication \
+                -XX:+HeapDumpOnOutOfMemoryError \
+                -XX:HeapDumpPath=/tmp/alfresco.hprof \
+                -XX:MinRAMPercentage=50 \
+                -XX:MaxRAMPercentage=80 \
+                -Dsolr.host=alfresco-search \
+                -Dsolr.port=8983 \
+                -Dsolr.port.ssl=8983 \
+                -Dsolr.secureComms=secret \
+                -Dsolr.baseUrl=/solr \
+                -Dindex.subsystem.name=solr6 \
+                -Dsolr.sharedSecret=fp40ptlrn6v \
+                -DlocalTransform.core-aio.url=http://alfresco-transform-core-aio:8090/ \
+                -Dhttpclient.config.transform.connectionRequestTimeout=500000 \
+                -Dhttpclient.config.transform.socketTimeout=500000 \
+                -Dhttpclient.config.transform.connectionTimeout=500000 \
+                -Dcsrf.filter.enabled=false \
+                -Dmessaging.broker.url='failover:(nio://alfresco-activemq:61616)?timeout=3000&jms.useCompression=true'"
+
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dencryption.keystore.type=JCEKS \
+                      -Dencryption.cipherAlgorithm=DESede/CBC/PKCS5Padding \
+                      -Dencryption.keyAlgorithm=DESede \
+                      -Dencryption.keystore.location=/usr/local/tomcat/shared/classes/alfresco/extension/keystore/keystore \
+                      -Dmetadata-keystore.password=mp6yc0UD9e \
+                      -Dmetadata-keystore.aliases=metadata \
+                      -Dmetadata-keystore.metadata.password=oKIWzVdEdA \
+                      -Dmetadata-keystore.metadata.algorithm=DESede "
+
+            # - name: DB_ENDPOINT
+            #   value: "jdbc:postgresql://alfresco-postgres:5432/alfresco"
+            # - name: DB_USERNAME
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: alfresco-db-secret
+            #       key: POSTGRES_USER
+            # - name: DB_PASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: alfresco-db-secret
+            #       key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: alf-data
+              mountPath: /usr/local/tomcat/alf_data
+              subPath: repo
+            - name: alf-data
+              mountPath: /usr/local/tomcat/logs
+              subPath: logs
+            - name: alfresco-config
+              mountPath: /usr/local/tomcat/shared/classes/alfresco-global.properties
+              subPath: alfresco-global.properties
+      volumes:
+        - name: alf-data
+          persistentVolumeClaim:
+            claimName: alfresco-pvc
+        - name: alfresco-config
+          configMap:
+            name: alfresco-config
