@@ -21,4 +21,3 @@ resources:
   - alfresco-svc-transform-core-aio.yaml
   - nginx-deployment.yaml
   - alfresco-svc-nginx.yaml
-  - nginx-configmap.yaml
