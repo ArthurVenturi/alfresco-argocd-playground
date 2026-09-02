@@ -6,7 +6,6 @@ metadata:
     app: alfresco-repo
 spec:
   type: LoadBalancer
-  loadBalancerIP: 172.16.30.210
   ports:
     - port: 8080
       targetPort: 8080
