@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     path: apps/alfresco-bj/overlays/dev # Caminho para o Kustomize do ambiente
   destination:
-    server: 'https://127.0.0.1:35377'
+    server: 'https://kubernetes.default.svc'
     namespace: dev # Namespace de destino no cluster Kubernetes
   syncPolicy:
     automated:
