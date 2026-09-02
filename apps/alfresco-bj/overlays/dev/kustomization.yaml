@@ -15,5 +15,13 @@ replicas:
     count: 1
   - name: alfresco-postgres
     count: 1
+  - name: alfresco-search
+    count: 1
+  - name: alfresco-activemq
+    count: 1
+  - name: alfresco-transform-core-aio
+    count: 1
+  - name: alfresco-nginx
+    count: 1
 
 namespace: alfresco-bj

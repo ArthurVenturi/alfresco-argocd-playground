@@ -16,3 +16,5 @@ resources:
   - alfresco-svc-content-app.yaml
   - alfresco-transform-core-aio.yaml
   - alfresco-svc-transform-core-aio.yaml
+  - alfresco-nginx-deployment.yaml
+  - alfresco-svc-nginx.yaml
