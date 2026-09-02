@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: alfresco-postgres
+  name: alfresco-svc-postgres
   labels:
     app: alfresco-postgres
 spec:
