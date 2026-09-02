@@ -8,6 +8,9 @@ resources:
   - alfresco-svc-postgres.yaml
   - alfresco-repository.yaml
   - alfresco-svc-alfresco.yaml
+  - alfresco-pvc.yaml
+  - alfresco-configmap.yaml
+  - alfresco-secret.yaml
   - share-deployment.yaml
   - alfresco-svc-share.yaml
   - alfresco-search.yaml
@@ -16,5 +19,6 @@ resources:
   - alfresco-svc-content-app.yaml
   - alfresco-transform-core-aio.yaml
   - alfresco-svc-transform-core-aio.yaml
-  - alfresco-nginx-deployment.yaml
+  - nginx-deployment.yaml
   - alfresco-svc-nginx.yaml
+  - nginx-configmap.yaml

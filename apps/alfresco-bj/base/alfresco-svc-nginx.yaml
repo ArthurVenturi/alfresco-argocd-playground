@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: alfresco-svc-nginx
   labels:
-    app: alfresco-nginx
+    app: proxy
 spec:
+  selector:
+    app: proxy
   type: LoadBalancer
   ports:
     - port: 8080
-      targetPort: 8080
-  selector:
-    app: alfresco-nginx
+      targetPort: 80
