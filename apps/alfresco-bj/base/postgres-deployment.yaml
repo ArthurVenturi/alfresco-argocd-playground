@@ -30,11 +30,16 @@ spec:
             - name: alf-data
               mountPath: /var/lib/postgresql/data
               subPath: postgres
-      healthcheck:
-        test: ["CMD-SHELL", "pg_isready"]
-        interval: 10s
-        timeout: 5s
-        retries: 5
+      livenessProbe:
+          exec:
+            command: ["pg_isready", "-U", "alfresco"]
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      readinessProbe:
+          exec:
+            command: ["pg_isready", "-U", "alfresco"]
+          initialDelaySeconds: 5
+          periodSeconds: 10
       volumes:
         - name: alf-data
           persistentVolumeClaim:

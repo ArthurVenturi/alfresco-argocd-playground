@@ -25,6 +25,14 @@ spec:
               port: 80
             initialDelaySeconds: 30
             periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
           volumes:
             - ./config/nginx.conf:/etc/nginx/nginx.conf
             - ./config/nginx.htpasswd:/etc/nginx/conf.d/nginx.htpasswd

@@ -6,13 +6,15 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/ArthurVenturi/alfresco-argocd-playground' # Substitua pela URL do seu repositório
+    repoURL: "https://github.com/ArthurVenturi/alfresco-argocd-playground" # Substitua pela URL do seu repositório
     targetRevision: HEAD
     path: apps/alfresco-bj/overlays/dev # Caminho para o Kustomize do ambiente
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: alfresco-bj # Namespace de destino no cluster Kubernetes
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true # Cria o namespace se não existir

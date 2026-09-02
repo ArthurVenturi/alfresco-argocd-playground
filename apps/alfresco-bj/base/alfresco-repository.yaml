@@ -100,16 +100,18 @@ spec:
             - name: alfresco-config
               mountPath: /usr/local/tomcat/shared/classes/alfresco-global.properties
               subPath: alfresco-global.properties
-      healthcheck:
-        test:
-          - CMD
-          - curl
-          - -f
-          - http://localhost:8080/alfresco/api/-default-/public/alfresco/versions/1/probes/-ready-
-        interval: 30s
-        timeout: 3s
-        retries: 3
-        start_period: 1m
+      livenessProbe:
+        httpGet:
+          path: /alfresco/api/-default-/public/alfresco/versions/1/probes/-ready-
+          port: 8080
+        initialDelaySeconds:
+        periodSeconds: 10
+      readinessProbe:
+        httpGet:
+          path: /alfresco/api/-default-/public/alfresco/versions/1/probes/-ready-
+          port: 8080
+        initialDelaySeconds: 25
+        periodSeconds: 10
       volumes:
         - name: alf-data
           persistentVolumeClaim:
