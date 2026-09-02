@@ -26,7 +26,6 @@ spec:
               #cpu: "2"
           ports:
             - containerPort: 8983
-          
           env:
             - name: JAVA_OPTS
               value: >
@@ -41,7 +40,6 @@ spec:
                 -Dsolr.log.dir=/opt/alfresco-search-services/logs
                 -Dsolr.backup.dir=/opt/alfresco-search-services/backup
                 -Dsolr.lock.type=native
-
             - name: SOLR_CREATE_ALFRESCO_DEFAULTS
               value: "alfresco,archive"
             - name: SOLR_JAVA_MEM
@@ -65,6 +63,18 @@ spec:
             - name: alfresco-data
               mountPath: /opt/alfresco-search-services/backup
               subPath: solr-backup
+      livenessProbe:
+        httpGet:
+          path: /solr/admin/info/system
+          port: 8983
+        initialDelaySeconds: 45
+        periodSeconds: 20
+      readinessProbe:
+        httpGet:
+          path: /solr/admin/info/system
+          port: 8983
+        initialDelaySeconds: 45
+        periodSeconds: 20
       volumes:
         - name: alfresco-data
           persistentVolumeClaim:

@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: alfresco-activemq
-  namespace: alfresco-bj
   labels:
     app: activemq
 spec:

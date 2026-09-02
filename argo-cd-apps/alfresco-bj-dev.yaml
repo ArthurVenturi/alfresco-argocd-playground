@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: alfresco-bj
+  name: alfresco-bj-dev
   namespace: argocd # Namespace onde o Argo CD está instalado
 spec:
   project: default
@@ -11,7 +11,7 @@ spec:
     path: apps/alfresco-bj/overlays/dev # Caminho para o Kustomize do ambiente
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: dev # Namespace de destino no cluster Kubernetes
+    namespace: alfresco-bj # Namespace de destino no cluster Kubernetes
   syncPolicy:
     automated:
       prune: true

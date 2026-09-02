@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: alfresco-share
-  namespace: alfresco-bj
+
 spec:
   replicas: 1
   selector:
@@ -23,3 +23,15 @@ spec:
               value: "alfresco-repo"
             - name: REPO_PORT
               value: "8080"
+      livenessProbe:
+        httpGet:
+          path: /share/page/
+          port: 8080
+        initialDelaySeconds: 60
+        periodSeconds: 20
+      readinessProbe:
+        httpGet:
+          path: /share/page/
+          port: 8080
+        initialDelaySeconds: 60
+        periodSeconds: 20

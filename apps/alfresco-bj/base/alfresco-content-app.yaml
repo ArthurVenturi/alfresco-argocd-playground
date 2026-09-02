@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: alfresco-content-app
-  namespace: alfresco-bj
   labels:
     app: content-app
 spec:
@@ -28,4 +27,3 @@ spec:
               memory: "256Mi"
           ports:
             - containerPort: 80
-            
