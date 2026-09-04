@@ -9,6 +9,7 @@ resources:
   - alfresco-repository.yaml
   - alfresco-svc-alfresco.yaml
   - alfresco-pvc.yaml
+  - alfresco-configmap.yaml
   - alfresco-secret.yaml
   - share-deployment.yaml
   - alfresco-svc-share.yaml
